@@ -52,7 +52,7 @@ double bench_omp_sort(int size, vector<int> (*generator)(int), int iterations, i
 
 #pragma omp single
 {
-        __gnu_parallel::sort(v.begin(), v.end());
+        __gnu_parallel::stable_sort(v.begin(), v.end());
 }
 
         high_resolution_clock::time_point finish_time = high_resolution_clock::now();
@@ -80,13 +80,17 @@ void bench_omp(vector<int> sizes, vector<int> thread_pool_sizes, vector<int> (*g
 
 
 int main() {
-    int iterations = 100;
-    vector<int> sizes {1000, 10000, 100000, 1000000};
-    vector<int> thread_pool_sizes {1, 2, 4};
+    int iterations = 10;
+    vector<int> sizes {100000000};
+    vector<int> thread_pool_sizes {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+    				   17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
 
-    bench_omp(sizes, thread_pool_sizes, random_vector, iterations, "omp_random.dat");
-    bench_omp(sizes, thread_pool_sizes, reversed_vector, iterations, "omp_reversed.dat");
-    bench_omp(sizes, thread_pool_sizes, sorted_vector, iterations, "omp_sorted.dat");
+    cout << "Random\n";
+    bench_omp(sizes, thread_pool_sizes, random_vector, iterations, "data/omp_random.dat");
+    cout << "Reversed\n";
+    bench_omp(sizes, thread_pool_sizes, reversed_vector, iterations, "data/omp_reversed.dat");
+    cout << "Sorted\n";
+    bench_omp(sizes, thread_pool_sizes, sorted_vector, iterations, "data/omp_sorted.dat");
 
     return 0;
 }
